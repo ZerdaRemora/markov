@@ -33,9 +33,6 @@ class MarkovChain
             .map { it.trim() }
             .toCollection(words)
 
-//        if (words.size > 2)
-//            sentenceStarters.add(listOf(words[0], words[1]))
-
         val tuple = LinkedList<String>()
 
         for (word in words)
@@ -43,19 +40,14 @@ class MarkovChain
             if (word.isBlank() || word.contains("http", true))
                 continue
 
-//            println("current word: '$word'")
-
             // Keep adding to the tuple until we have at least 2 words.
             // Two words in each tuple as the next word in the chain will be
             // determined by the previous two words.
             if (tuple.size < 2)
             {
-//                println("adding '$word' to tuple")
                 tuple.add(word)
                 continue
             }
-
-//            println("current tuple: $tuple")
 
             // Clone the tuple to use as a key (avoid using a reference!)
             val dictKey: List<String> = tuple.toList()
@@ -70,10 +62,8 @@ class MarkovChain
             // Remove the first word of the tuple, then add the current word to
             // the end of the tuple.
             // This creates a new tuple of the next group of two words.
-            val polled = tuple.poll()
-//            println("Removed '$polled' from tuple")
+            tuple.poll()
             tuple.add(word)
-//            println("Now adding '$word' to tuple")
         }
 
         return dictionary
@@ -160,7 +150,8 @@ class MarkovChain
         return sb.toString()
     }
 
-    private fun searchSingleWord(word: String): List<String> {
+    private fun searchSingleWord(word: String): List<String>
+    {
         for (tuple in dictionary.keys)
         {
             if (tuple[0] == word)
